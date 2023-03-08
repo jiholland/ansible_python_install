@@ -12,7 +12,7 @@ Role Variables
 --------------
 
 - python\_version
-- python\_\release\_version
+- python\_release\_version
 
 Dependencies
 ------------
