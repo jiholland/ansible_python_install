@@ -1,7 +1,7 @@
 ---
 # handlers file for python_install
 
-- name: Remove downloaded Python
+- name: Remove downloaded Python tarball
   ansible.builtin.file:
     path: /tmp/Python-{{ python_release_version }}.tar.gz
     state: absent

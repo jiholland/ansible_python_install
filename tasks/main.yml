@@ -5,12 +5,12 @@
   ansible.builtin.include_tasks:
     file: "{{ ansible_facts.os_family | lower }}.yml"
 
-- name: Download Python
+- name: Download Python tarball
   ansible.builtin.get_url:
     url: https://www.python.org/ftp/python/{{ python_release_version }}/Python-{{ python_release_version }}.tgz
     dest: /tmp
     mode: '0755'
-  notify: Remove downloaded Python
+  notify: Remove downloaded Python tarball
 
 - name: Extract Python binaries
   ansible.builtin.unarchive:
@@ -23,12 +23,6 @@
   args:
     chdir: /tmp/Python-{{ python_release_version }}
   changed_when: true
-
-- name: Print information about the next task
-  ansible.builtin.debug:
-    msg:
-      - Next task will compile Python.
-      - This might take a couple of minutes.
 
 - name: Compile Python using all CPUs
   community.general.make:
