@@ -1,0 +1,51 @@
+---
+# tasks file for python_install
+
+- name: Include task
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_facts.os_family | lower }}.yml"
+
+- name: Download Python
+  ansible.builtin.get_url:
+    url: https://www.python.org/ftp/python/{{ python_release_version }}/Python-{{ python_release_version }}.tgz
+    dest: /tmp
+    mode: '0755'
+  notify: Remove downloaded Python
+
+- name: Extract Python binaries
+  ansible.builtin.unarchive:
+    src: /tmp/Python-{{ python_release_version }}.tgz
+    dest: /tmp/
+  notify: Remove extracted Python binaries
+
+- name: Ensure custom prefix for Python binaries and enable speed optimization
+  ansible.builtin.command: ./configure --prefix={{ python_prefix }}/ --enable-optimizations --with-lto
+  args:
+    chdir: /tmp/Python-{{ python_release_version }}
+  changed_when: true
+
+- name: Print information about the next task
+  ansible.builtin.debug:
+    msg:
+      - Next task will altinstall Python.
+      - This might take a couple of minutes.
+
+- name: Compile Python using all CPUs for compilation
+  community.general.make:
+    chdir: /tmp/Python-{{ python_release_version }}
+    jobs: "{{ ansible_facts.processor_nproc }}"
+  become: true
+
+- name: Install Python as an alternative installation
+  community.general.make:
+    chdir: /tmp/Python-{{ python_release_version }}
+    target: altinstall
+  become: true
+
+- name: Install Python and select it
+  community.general.alternatives:
+    name: python3
+    path: "{{ python_prefix }}/bin/python{{ python_version }}"
+    link: /usr/bin/python3
+    state: selected
+  become: true

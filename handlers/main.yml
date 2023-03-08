@@ -1,0 +1,12 @@
+---
+# handlers file for ansible_python
+
+- name: Remove downloaded Python
+  ansible.builtin.file:
+    path: /tmp/Python-{{ python_release_version }}.tar.gz
+    state: absent
+
+- name: Remove extracted Python binaries
+  ansible.builtin.file:
+    path: /tmp/Python-{{ python_release_version }}
+    state: absent

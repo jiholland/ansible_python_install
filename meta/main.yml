@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: python_install
+  author: Jørn Ivar Holland
+  description: Install Python from source.
+  license: BSD-3-Clause
+  min_ansible_version: '2.9'
+  platforms:
+    - name: EL
+      versions:
+        - all
+  galaxy_tags:
+    - system
+    - python
+
+
+dependencies: []
