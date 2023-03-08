@@ -17,7 +17,7 @@
     mode: '0755'
   notify: Remove downloaded Python tarball
 
-- name: Extract Python binaries
+- name: Extract Python binaries from tarball
   ansible.builtin.unarchive:
     src: /tmp/Python-{{ python_version }}.tgz
     dest: /tmp/
