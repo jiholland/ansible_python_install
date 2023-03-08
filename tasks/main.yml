@@ -1,11 +1,6 @@
 ---
 # tasks file for python_install
 
-- name: Test
-  tags: test
-  ansible.builtin.debug:
-    msg: "{{ python_version }}"
-
 - name: Include task
   ansible.builtin.include_tasks:
     file: "{{ ansible_facts.os_family | lower }}.yml"
