@@ -1,45 +1,50 @@
 ---
 # tasks file for python_install
 
+- name: Test
+  tags: test
+  ansible.builtin.debug:
+    msg: "{{ python_version }}"
+
 - name: Include task
   ansible.builtin.include_tasks:
     file: "{{ ansible_facts.os_family | lower }}.yml"
 
 - name: Download Python tarball
   ansible.builtin.get_url:
-    url: https://www.python.org/ftp/python/{{ python_release_version }}/Python-{{ python_release_version }}.tgz
+    url: https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tgz
     dest: /tmp
     mode: '0755'
   notify: Remove downloaded Python tarball
 
 - name: Extract Python binaries
   ansible.builtin.unarchive:
-    src: /tmp/Python-{{ python_release_version }}.tgz
+    src: /tmp/Python-{{ python_version }}.tgz
     dest: /tmp/
   notify: Remove extracted Python binaries
 
-- name: Ensure custom prefix for Python binaries and speed optimization
+- name: Ensure custom prefix and speed optimization for Python binaries
   ansible.builtin.command: ./configure --prefix={{ python_prefix }}/ --enable-optimizations --with-lto
   args:
-    chdir: /tmp/Python-{{ python_release_version }}
+    chdir: /tmp/Python-{{ python_version }}
   changed_when: true
 
 - name: Compile Python using all CPUs
   community.general.make:
-    chdir: /tmp/Python-{{ python_release_version }}
+    chdir: /tmp/Python-{{ python_version }}
     jobs: "{{ ansible_facts.processor_nproc }}"
   become: true
 
 - name: Install Python as an alternative installation
   community.general.make:
-    chdir: /tmp/Python-{{ python_release_version }}
+    chdir: /tmp/Python-{{ python_version }}
     target: altinstall
   become: true
 
 - name: Set Python as currently selected alternative for the group
   community.general.alternatives:
     name: python3
-    path: "{{ python_prefix }}/bin/python{{ python_version }}"
+    path: "{{ python_prefix }}/bin/python{{ python_main_version }}"
     link: /usr/bin/python3
     state: selected
   become: true
@@ -49,6 +54,6 @@
   ansible.builtin.pip:
     name: "{{ item }}"
     state: latest
-    executable: "{{ python_prefix }}/bin/pip{{ python_version }}"
+    executable: "{{ python_prefix }}/bin/pip{{ python_main_version }}"
   loop: "{{ python_packages }}"
   become: true

@@ -12,7 +12,6 @@ Role Variables
 --------------
 
 - python\_version
-- python\_release\_version
 
 Dependencies
 ------------
@@ -28,8 +27,7 @@ Example Playbook
       gather_facts: true
 
       roles:
-        - role: python_install
-          tags: python
+        - python_install
 
 License
 -------
