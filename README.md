@@ -1,12 +1,12 @@
-🐍 ansible\_python
+🐍 python\_install
 ==================
 
-Install Python from source.
+Build, compile and install Python from source code.
 
 Requirements
 ------------
 
-[Community General](https://galaxy.ansible.com/community/general)
+💿 [Community General](https://galaxy.ansible.com/community/general)
 
 Role Variables
 --------------
@@ -23,14 +23,13 @@ Example Playbook
 ----------------
 
     ---
-    - name: Install Python from source
+    - name: Build, compile and install Python from source code
       hosts: localhost
       gather_facts: true
 
       roles:
-        - role: ansible_python
+        - role: python_install
           tags: python
-
 
 License
 -------

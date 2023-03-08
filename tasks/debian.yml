@@ -3,14 +3,15 @@
 
 - name: Upgrade all OS packages
   # noqa package-latest
-  ansible.builtin.dnf:
+  ansible.builtin.apt:
     name: '*'
+    update_cache: true
     state: latest
   become: true
 
 - name: Install required OS packages
-  ansible.builtin.dnf:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
-  loop: "{{ redhat_os_packages }}"
+  loop: "{{ debian_os_packages }}"
   become: true

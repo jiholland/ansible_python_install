@@ -1,5 +1,5 @@
 ---
-# defaults file for ansible_python
+# defaults file for python_install
 
 python_version: 3.11
 python_release_version: "{{ python_version }}.2"

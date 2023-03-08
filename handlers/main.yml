@@ -1,5 +1,5 @@
 ---
-# handlers file for ansible_python
+# handlers file for python_install
 
 - name: Remove downloaded Python
   ansible.builtin.file:

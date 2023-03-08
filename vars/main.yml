@@ -1,5 +1,5 @@
 ---
-# vars file for ansible_python
+# vars file for python_install
 
 python_prefix: /opt/python/{{ python_release_version }}
 

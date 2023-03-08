@@ -18,7 +18,7 @@
     dest: /tmp/
   notify: Remove extracted Python binaries
 
-- name: Ensure custom prefix for Python binaries and enable speed optimization
+- name: Ensure custom prefix for Python binaries and speed optimization
   ansible.builtin.command: ./configure --prefix={{ python_prefix }}/ --enable-optimizations --with-lto
   args:
     chdir: /tmp/Python-{{ python_release_version }}
@@ -27,10 +27,10 @@
 - name: Print information about the next task
   ansible.builtin.debug:
     msg:
-      - Next task will altinstall Python.
+      - Next task will compile Python.
       - This might take a couple of minutes.
 
-- name: Compile Python using all CPUs for compilation
+- name: Compile Python using all CPUs
   community.general.make:
     chdir: /tmp/Python-{{ python_release_version }}
     jobs: "{{ ansible_facts.processor_nproc }}"
@@ -42,7 +42,7 @@
     target: altinstall
   become: true
 
-- name: Install Python and select it
+- name: Set Python as currently selected alternative for the group
   community.general.alternatives:
     name: python3
     path: "{{ python_prefix }}/bin/python{{ python_version }}"
