@@ -49,3 +49,12 @@
     link: /usr/bin/python3
     state: selected
   become: true
+
+- name: Upgrade Python packages
+  # noqa package-latest
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    state: latest
+    executable: "{{ python_prefix }}/bin/pip{{ python_version }}"
+  loop: "{{ python_packages }}"
+  become: true
