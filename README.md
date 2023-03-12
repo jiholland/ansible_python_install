@@ -1,7 +1,7 @@
 🐍 python\_install
 ==================
 
-Build, compile and install Python from source code.
+Download, build, compile and install Python from source code.
 
 Requirements
 ------------
@@ -11,7 +11,9 @@ Requirements
 Role Variables
 --------------
 
-- python\_version
+- python\_release\_version
+- python\_install\_dir
+- python\_url
 
 Dependencies
 ------------
@@ -22,12 +24,12 @@ Example Playbook
 ----------------
 
     ---
-    - name: Build, compile and install Python from source code
+    - name: Download, build, compile and install Python from source code.
       hosts: localhost
       gather_facts: true
 
       roles:
-        - python_install
+        - python
 
 License
 -------

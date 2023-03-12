@@ -1,0 +1,12 @@
+---
+# vars file for python
+
+python_os_packages:
+  - wget
+  - gcc
+  - openssl-devel
+  - bzip2-devel
+  - libffi-devel
+  - xz-devel
+  - tk-devel
+  - '@Development Tools'

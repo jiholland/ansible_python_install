@@ -1,40 +1,17 @@
 ---
-# vars file for python_install
+# vars file for python
 
-python_prefix: /opt/python/{{ python_version }}  # Installation location
-python_main_version: "{{ python_version | regex_search('[0-9]*[.][0-9]+') }}"  # Example: 3.11.2 --> 3.11
+python_download_dir: /tmp
 
-redhat_os_packages:
-  - wget
-  - gcc
-  - openssl-devel
-  - bzip2-devel
-  - libffi-devel
-  - xz-devel
-  - tk-devel
-  - '@Development Tools'
+python_archive_format: tgz  # Preferred download format.
 
-debian_os_packages:
-  - build-essential
-  - gdb
-  - lcov
-  - pkg-config
-  - libbz2-dev
-  - libffi-dev
-  - libgdbm-dev
-  - libgdbm-compat-dev
-  - liblzma-dev
-  - libncurses5-dev
-  - libreadline6-dev
-  - libsqlite3-dev
-  - libssl-dev
-  - lzma
-  - lzma-dev
-  - tk-dev
-  - uuid-dev
-  - zlib1g-dev
+python_archive: Python-{{ python_release_version }}.{{ python_archive_format }}  # Example: Python-3.11.2.tgz
 
-python_packages:
+python_unarchive_dir: "{{ python_download_dir }}/Python-{{ python_release_version }}"
+
+python_main_version: "{{ python_release_version | regex_search('[0-9]*[.][0-9]+') }}"  # Example: 3.11
+
+python_upgrade_packages:
   - pip
   - setuptools
   - wheel

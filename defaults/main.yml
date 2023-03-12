@@ -1,4 +1,8 @@
 ---
-# defaults file for python_install
+# defaults file for python
 
-python_version: 3.11.2
+python_release_version: 3.11.2
+
+python_install_dir: /opt/python/{{ python_release_version }}
+
+python_url: https://www.python.org/ftp/python/{{ python_release_version }}/{{ python_archive }}  # URL to download Python from.

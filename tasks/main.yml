@@ -1,54 +1,58 @@
 ---
-# tasks file for python_install
+# tasks file for python
 
-- name: Include task
+- name: Include OS-specific variables.
+  ansible.builtin.include_vars: "{{ ansible_facts.os_family }}.yml"
+
+- name: Include OS-specific tasks.
   ansible.builtin.include_tasks:
-    file: "{{ ansible_facts.os_family | lower }}.yml"
+    file: "{{ ansible_facts.os_family }}.yml"
 
-- name: Download Python tarball
+- name: Download Python archive.
   ansible.builtin.get_url:
-    url: https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tgz
-    dest: /tmp
+    url: "{{ python_url }}"
+    dest: "{{ python_download_dir }}"
     mode: '0755'
-  notify: Remove downloaded Python tarball
+  notify: Remove downloaded Python archive.
 
-- name: Extract Python binaries from tarball
+- name: Extract Python binaries from archive.
   ansible.builtin.unarchive:
-    src: /tmp/Python-{{ python_version }}.tgz
-    dest: /tmp/
-  notify: Remove extracted Python binaries
+    src: "{{ python_download_dir }}/{{ python_archive }}"
+    dest: "{{ python_download_dir }}"
+  notify: Remove extracted Python binaries.
 
-- name: Ensure custom prefix and speed optimization for Python binaries
-  ansible.builtin.command: ./configure --prefix={{ python_prefix }}/ --enable-optimizations --with-lto
+- name: Ensure custom prefix and speed optimization for Python binaries.
+  ansible.builtin.command: ./configure --prefix={{ python_install_dir }}/ --enable-optimizations --with-lto
   args:
-    chdir: /tmp/Python-{{ python_version }}
+    chdir: "{{ python_unarchive_dir }}"
+  check_mode: false
   changed_when: true
 
-- name: Compile Python using all CPUs
+- name: Compile Python using all CPUs.
   community.general.make:
-    chdir: /tmp/Python-{{ python_version }}
+    chdir: "{{ python_unarchive_dir }}"
     jobs: "{{ ansible_facts.processor_nproc }}"
   become: true
 
-- name: Install Python as an alternative installation
+- name: Install Python as an alternative installation.
   community.general.make:
-    chdir: /tmp/Python-{{ python_version }}
+    chdir: "{{ python_unarchive_dir }}"
     target: altinstall
   become: true
 
-- name: Set Python as currently selected alternative for the group
+- name: Set Python as currently selected alternative for the group.
   community.general.alternatives:
     name: python3
-    path: "{{ python_prefix }}/bin/python{{ python_main_version }}"
+    path: "{{ python_install_dir }}/bin/python{{ python_main_version }}"
     link: /usr/bin/python3
     state: selected
   become: true
 
-- name: Upgrade Python packages
+- name: Upgrade Python packages.
   # noqa package-latest
   ansible.builtin.pip:
     name: "{{ item }}"
+    executable: "{{ python_install_dir }}/bin/pip{{ python_main_version }}"
     state: latest
-    executable: "{{ python_prefix }}/bin/pip{{ python_main_version }}"
-  loop: "{{ python_packages }}"
+  loop: "{{ python_upgrade_packages }}"
   become: true

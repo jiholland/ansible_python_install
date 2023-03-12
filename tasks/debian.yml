@@ -1,7 +1,7 @@
 ---
-# tasks file for python_install
+# tasks file for python
 
-- name: Upgrade all OS packages
+- name: Debian | Upgrade all OS packages.
   # noqa package-latest
   ansible.builtin.apt:
     name: '*'
@@ -9,9 +9,9 @@
     state: latest
   become: true
 
-- name: Install required OS packages
+- name: Debian | Install required OS packages.
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
-  loop: "{{ debian_os_packages }}"
+  loop: "{{ python_os_packages }}"
   become: true
