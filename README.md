@@ -15,6 +15,7 @@ Role Variables
 - python\_install\_dir
 - python\_url
 - python\_jobs
+- python\_state
 
 Dependencies
 ------------

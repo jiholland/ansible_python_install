@@ -11,6 +11,8 @@ python_unarchive_dir: "{{ python_download_dir }}/Python-{{ python_release_versio
 
 python_main_version: "{{ python_release_version | regex_search('[0-9]*[.][0-9]+') }}"  # Example: 3.11
 
+python_real_executable: /usr/bin/python3
+
 python_upgrade_packages:
   - pip
   - setuptools

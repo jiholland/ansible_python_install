@@ -6,7 +6,7 @@
 
 - name: Include OS-specific tasks.
   ansible.builtin.include_tasks:
-    file: Setup-{{ ansible_facts.os_family }}.yml
+    file: Setup_{{ ansible_facts.os_family }}.yml
 
 - name: Download Python archive.
   ansible.builtin.get_url:
@@ -53,12 +53,12 @@
     target: altinstall
   become: true
 
-- name: Set Python as currently selected alternative for the group.
+- name: Ensure symbolic link for Python3 using update-alternatives tool.
   community.general.alternatives:
     name: python3
     path: "{{ python_install_dir }}/bin/python{{ python_main_version }}"
-    link: /usr/bin/python3
-    state: selected
+    link: "{{ python_real_executable }}"
+    state: "{{ python_state }}"
   become: true
 
 - name: Upgrade Python packages.
