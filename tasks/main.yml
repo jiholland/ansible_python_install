@@ -64,8 +64,10 @@
 - name: Upgrade Python packages.
   # noqa package-latest
   ansible.builtin.pip:
-    name: "{{ item }}"
+    name: "{{ python_item }}"
     executable: "{{ python_install_dir }}/bin/pip{{ python_main_version }}"
     state: latest
   loop: "{{ python_upgrade_packages }}"
+  loop_control:
+    loop_var: python_item
   become: true

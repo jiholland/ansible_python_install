@@ -11,7 +11,9 @@
 
 - name: Setup_Debian | Install required OS packages.
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name: "{{ python_item }}"
     state: present
   loop: "{{ python_os_packages }}"
+  loop_control:
+    loop_var: python_item
   become: true
