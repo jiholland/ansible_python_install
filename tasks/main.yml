@@ -33,7 +33,7 @@
 - name: Compile Python.
   block:
 
-    - name: Compile Python with custom number for concurrent jobs.
+    - name: Compile Python with custom number of concurrent jobs.
       community.general.make:
         chdir: "{{ python_unarchive_dir }}"
         jobs: "{{ python_jobs }}"
