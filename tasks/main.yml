@@ -6,7 +6,7 @@
 
 - name: Include OS-specific tasks.
   ansible.builtin.include_tasks:
-    file: "{{ ansible_facts.os_family }}.yml"
+    file: Setup-{{ ansible_facts.os_family }}.yml
 
 - name: Download Python archive.
   ansible.builtin.get_url:

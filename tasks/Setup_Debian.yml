@@ -1,15 +1,16 @@
 ---
 # tasks file for python
 
-- name: RedHat | Upgrade all OS packages.
+- name: Setup_Debian | Upgrade all OS packages.
   # noqa package-latest
-  ansible.builtin.dnf:
+  ansible.builtin.apt:
     name: '*'
+    update_cache: true
     state: latest
   become: true
 
-- name: RedHat | Install required OS packages.
-  ansible.builtin.dnf:
+- name: Setup_Debian | Install required OS packages.
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
   loop: "{{ python_os_packages }}"
