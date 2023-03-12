@@ -26,7 +26,7 @@ Example Playbook
 
     ---
     - name: Download, build, compile and install Python from source code.
-      hosts: localhost
+      hosts: webservers
       gather_facts: true
 
       roles:
