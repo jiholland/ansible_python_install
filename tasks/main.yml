@@ -19,6 +19,7 @@
   ansible.builtin.unarchive:
     src: "{{ python_download_dir }}/{{ python_archive }}"
     dest: "{{ python_download_dir }}"
+    remote_src: true
   notify: Remove extracted Python binaries.
 
 - name: Ensure custom prefix and speed optimization for Python binaries.
@@ -28,11 +29,23 @@
   check_mode: false
   changed_when: true
 
-- name: Compile Python using all CPUs.
-  community.general.make:
-    chdir: "{{ python_unarchive_dir }}"
-    jobs: "{{ ansible_facts.processor_nproc }}"
-  become: true
+
+- name: Compile Python.
+  block:
+
+    - name: Compile Python with custom number for concurrent jobs.
+      community.general.make:
+        chdir: "{{ python_unarchive_dir }}"
+        jobs: "{{ python_jobs }}"
+      become: true
+
+  rescue:
+
+    - name: Compile Python.
+      community.general.make:
+        chdir: "{{ python_unarchive_dir }}"
+      become: true
+
 
 - name: Install Python as an alternative installation.
   community.general.make:

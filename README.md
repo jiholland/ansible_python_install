@@ -14,6 +14,7 @@ Role Variables
 - python\_release\_version
 - python\_install\_dir
 - python\_url
+- python\_jobs
 
 Dependencies
 ------------
