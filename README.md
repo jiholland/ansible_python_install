@@ -1,7 +1,7 @@
 🐍 python\_install
 ==================
 
-Download, build, compile and install Python from source code.
+Build, compile and install Python from source code.
 
 Requirements
 ------------

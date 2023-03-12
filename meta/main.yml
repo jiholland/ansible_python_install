@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: python
   author: Jørn Ivar Holland
-  description: Donwload, build, compile and install Python from source code.
+  description: Build, compile and install Python from source code.
   license: BSD-3-Clause
   min_ansible_version: '2.12'
   platforms:
