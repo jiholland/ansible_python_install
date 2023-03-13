@@ -2,11 +2,12 @@
 # tasks file for python
 
 - name: Include OS-specific variables.
-  ansible.builtin.include_vars: "{{ ansible_facts.os_family }}.yml"
+  ansible.builtin.include_vars:
+    file: "{{ ansible_facts.os_family | lower }}.yml"
 
 - name: Include OS-specific tasks.
   ansible.builtin.include_tasks:
-    file: Setup_{{ ansible_facts.os_family }}.yml
+    file: setup_{{ ansible_facts.os_family | lower }}.yml
 
 - name: Download Python archive.
   ansible.builtin.get_url:
