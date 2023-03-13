@@ -3,11 +3,11 @@
 
 - name: Include OS-specific variables.
   ansible.builtin.include_vars:
-    file: "{{ ansible_facts.os_family | lower }}.yml"
+    file: "{{ ansible_facts.os_family }}.yml"
 
 - name: Include OS-specific tasks.
   ansible.builtin.include_tasks:
-    file: setup_{{ ansible_facts.os_family | lower }}.yml
+    file: Setup_{{ ansible_facts.os_family }}.yml
 
 - name: Download Python archive.
   ansible.builtin.get_url:
